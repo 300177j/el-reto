@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EL RETO</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#10101c;color:white;text-align:center}
+header{padding:28px 15px;background:linear-gradient(135deg,#7028e4,#e52b9a)}
+h1{font-size:42px;margin:5px}
+header p{margin:8px}
+nav{display:flex;justify-content:center;gap:8px;padding:15px;flex-wrap:wrap}
+button{border:0;border-radius:12px;padding:13px 18px;background:#792be8;color:white;font-weight:bold;font-size:15px}
+main{padding:15px;max-width:600px;margin:auto}
+.card{background:#202035;border:1px solid #393958;border-radius:20px;padding:25px;margin:15px 0}
+h2{color:#e98bff}
+#reto{font-size:22px;line-height:1.5;min-height:100px;display:flex;align-items:center;justify-content:center}
+.points{font-size:20px;color:#f5ce59}
+button:active{transform:scale(.96)}
+footer{padding:25px;color:#aaa;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+<h1>⚡ EL RETO</h1>
+<p>¿Te atreves a superar todos los desafíos?</p>
+</header>
+<nav>
+<button onclick="mostrar('todos')">🎲 Todos</button>
+<button onclick="mostrar('diversion')">😂 Diversión</button>
+<button onclick="mostrar('creatividad')">🎨 Creatividad</button>
+<button onclick="mostrar('mente')">🧠 Mente</button>
+</nav>
+<main>
+<div class="card">
+<h2>🏆 Tus puntos</h2>
+<div class="points" id="puntos">0 puntos</div>
+</div>
+<div class="card">
+<h2 id="categoria">🎲 Tu próximo reto</h2>
+<div id="reto">¡Presiona el botón y descubre tu desafío!</div>
+<button onclick="nuevoReto()">DESCUBRIR RETO ⚡</button>
+</div>
+<div class="card">
+<h2>¿Lo lograste?</h2>
+<p>Completa el desafío para ganar puntos.</p>
+<button onclick="completar()">¡LO LOGRÉ! +10 ⭐</button>
+</div>
+</main>
+<footer>EL RETO © 2026 · Diversión para todos</footer>
+<script>
+const retos={
+diversion:[
+"Habla durante un minuto como un robot.",
+"Baila durante 30 segundos.",
+"Imita a un animal y deja que adivinen cuál es.",
+"Cuenta un chiste.",
+"Intenta decir un trabalenguas tres veces."
+],
+creatividad:[
+"Dibuja una casa con los ojos cerrados.",
+"Inventa un nombre para un planeta.",
+"Crea una historia con tres palabras al azar.",
+"Inventa un baile de 10 segundos.",
+"Dibuja tu animal favorito en un minuto."
+],
+mente:[
+"Nombra cinco frutas en diez segundos.",
+"Di tres palabras que empiecen por M.",
+"Cuenta hacia atrás desde 30.",
+"Recuerda cinco objetos que tengas cerca.",
+"Resuelve: ¿cuánto es 12 + 18?"
+]};
+let actual=null;
+let puntos=Number(localStorage.getItem("puntosReto")||0);
+document.getElementById("puntos").textContent=puntos+" puntos";
+function mostrar(cat){
+actual=cat;
+document.getElementById("categoria").textContent=
+cat==="todos"?"🎲 Todos los retos":
+cat==="diversion"?"😂 Diversión":
+cat==="creatividad"?"🎨 Creatividad":"🧠 Mente";
+nuevoReto();
+}
+function nuevoReto(){
+let lista=actual==="todos"?Object.values(retos).flat():retos[actual||"diversion"];
+document.getElementById("reto").textContent=lista[Math.floor(Math.random()*lista.length)];
+}
+function completar(){
+if(!document.getElementById("reto").textContent.includes("Presiona")){
+puntos+=10;
+localStorage.setItem("puntosReto",puntos);
+document.getElementById("puntos").textContent=puntos+" puntos";
+document.getElementById("reto").textContent="¡INCREÍBLE! 🎉 ¡Has ganado 10 puntos! Descubre otro reto.";
+actual=actual||"todos";
+}else{
+alert("Primero descubre un reto.");
+}
+}
+</script>
+</body>
+</html>
